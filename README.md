@@ -155,8 +155,7 @@ The model generalizes well and is robust, fair, and effective at distinguishing 
 
 ## Related Links
 
-- **Medium Article:** [From Reviews to Sentiment: Building a Classifier with Amazon Data](#)  
-  (Insert the actual Medium story link here)
+- **Medium Article:** [From Reviews to Sentiment: Building a Classifier with Amazon Data](https://medium.com/@mert_arcan/from-reviews-to-sentiment-building-a-classifier-with-amazon-data-abd811a91941)
 - **Kaggle Dataset:** [Amazon Reviews Dataset](https://www.kaggle.com/kritanjalijain/amazon-reviews)
 
 ---
@@ -189,6 +188,3 @@ Open `main.ipynb` to follow the code-and-commentary format.
 
 For issues, improvements, or contributions:
 - Open an issue or pull request on this GitHub repository.
-- Reach out via Medium or provided contact links.
-
-By following this README and exploring the code, you can replicate our process, understand each step’s rationale, and potentially build upon this sentiment analysis framework for your own projects.
