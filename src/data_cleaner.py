@@ -8,6 +8,24 @@ from contractions import fix  # pip install contractions
 from nltk.corpus import wordnet
 
 class TextPreprocessor(BaseEstimator, TransformerMixin):
+    """
+    A text preprocessing transformer that:
+    - Expands contractions
+    - Converts text to lowercase
+    - Removes punctuation
+    - Handles negations
+    - Tokenizes text
+    - Removes stopwords
+    - POS-tags and lemmatizes tokens
+    - Removes empty rows and renames processed columns
+
+    Intended for use on a pandas DataFrame with 'title' and 'text' columns.
+    
+    Parameters:
+    -----------
+    columns : list
+        List of column names to preprocess.
+    """
     def __init__(self, columns=None):
         self.columns = columns
         self.stop_words = set(stopwords.words('english'))  # **Step 6: Initialize Stopwords**
@@ -94,17 +112,23 @@ class TextPreprocessor(BaseEstimator, TransformerMixin):
 
 def clean_dataset(data):
     """
-    Preprocess the sentiment data by:
+    Cleans the raw dataset by:
     1. Mapping polarity values to sentiment labels (0 for negative, 1 for positive).
-    2. Dropping rows where 'title' or 'text' is missing or empty.
-    3. Returning the preprocessed dataframe with clean columns for further processing.
-
+    2. Removing rows with missing or empty title/text fields.
+    3. Dropping duplicate reviews.
+    4. Removing unnecessary columns.
+    
     Parameters:
-    - data (pd.DataFrame): Input dataframe with 'polarity', 'title', and 'text' columns.
-
+    -----------
+    data : pd.DataFrame
+        Raw DataFrame with 'polarity', 'title', and 'text' columns.
+    
     Returns:
-    - pd.DataFrame: Preprocessed dataframe with 'title', 'text', and 'sentiment' columns.
+    --------
+    pd.DataFrame
+        A cleaned and focused DataFrame with 'title', 'text', and 'sentiment' columns ready for preprocessing.
     """
+
     # Map polarity values to sentiment labels
     data['sentiment'] = data['polarity'].map({1: 0, 2: 1})
     

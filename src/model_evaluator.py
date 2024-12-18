@@ -12,15 +12,31 @@ from matplotlib.colors import LinearSegmentedColormap
 
 def evaluate_model(classifier, X, y, save_plots=False, plot_path_prefix=''):
     """
-    Evaluates the performance of a classifier on validation data.
+    Evaluates a trained classifier on the given dataset (X, y).
+    
+    Prints out key metrics:
+    - Accuracy
+    - Classification report (precision, recall, f1-score)
+    - Weighted F1-score
+    - Matthews Correlation Coefficient (MCC)
+    - ROC AUC Score
+    - Confusion Matrix
 
     Parameters:
-    - classifier: Trained classifier with predict and predict_proba methods.
-    - X_val: Feature matrix for validation.
-    - y_val: True labels for validation.
-    - save_plots: Boolean indicating whether to save the plots.
-    - plot_path_prefix: Prefix path for saving plots.
+    -----------
+    classifier : sklearn classifier or pipeline
+        The trained model to evaluate.
+    X : pd.DataFrame or array-like
+        The input features.
+    y : pd.Series or array-like
+        The true labels.
+
+    Returns:
+    --------
+    None
+        Prints the evaluation results directly.
     """
+    
     # Make predictions on the validation set
     predictions = classifier.predict(X)
     y_probs = classifier.predict_proba(X)[:, 1]
@@ -99,47 +115,5 @@ def evaluate_model(classifier, X, y, save_plots=False, plot_path_prefix=''):
         plt.savefig(f'{plot_path_prefix}_precision_recall_curve.png')
     plt.show()
 
-    # Feature Importance (Logistic Regression Coefficients)
-    if hasattr(classifier, 'coef_'):
-        try:
-            # Assuming X_val is a sparse matrix and vectorizer was used
-            feature_names = []
-            if hasattr(X, 'columns'):
-                feature_names = X.columns
-            elif hasattr(classifier, 'feature_names_in_'):
-                feature_names = classifier.feature_names_in_
-            else:
-                print("Feature names not available for coefficient plotting.")
-            
-            if not feature_names and hasattr(classifier, 'steps'):
-                # If classifier is part of a pipeline
-                vectorizer = classifier.steps[0][1]
-                feature_names = vectorizer.get_feature_names_out()
-            
-            if feature_names:
-                coefficients = classifier.coef_[0]
-                coef_df = pd.DataFrame({
-                    'Feature': feature_names,
-                    'Coefficient': coefficients
-                })
-                coef_df['AbsCoefficient'] = coef_df['Coefficient'].abs()
-                coef_df = coef_df.sort_values(by='AbsCoefficient', ascending=False).head(20)
-
-                plt.figure(figsize=(10, 8))
-                sns.barplot(x='Coefficient', y='Feature', data=coef_df, palette='viridis')
-                plt.title('Top 20 Feature Coefficients')
-                plt.xlabel('Coefficient Value')
-                plt.ylabel('Feature')
-                plt.tight_layout()
-                if save_plots:
-                    plt.savefig(f'{plot_path_prefix}_feature_importance.png')
-                plt.show()
-            else:
-                print("Skipping feature importance plot due to unavailable feature names.")
-        except Exception as e:
-            print(f"An error occurred while plotting feature importance: {e}")
-
-    else:
-        print("The classifier does not have a 'coef_' attribute. Skipping feature importance plot.")
 
     print("\nEvaluation completed.")
