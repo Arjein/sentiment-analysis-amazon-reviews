@@ -157,7 +157,7 @@ The model generalizes well and is robust, fair, and effective at distinguishing 
 
 - **Medium Article:** [From Reviews to Sentiment: Building a Classifier with Amazon Data](https://medium.com/@mert_arcan/from-reviews-to-sentiment-building-a-classifier-with-amazon-data-abd811a91941)
 - **Kaggle Dataset:** [Amazon Reviews Dataset](https://www.kaggle.com/kritanjalijain/amazon-reviews)
-
+- **Kaggle Notebook** [Notebook Solution on Kaggle](https://www.kaggle.com/code/mertarcan/logistic-regression?scriptVersionId=213752530)
 ---
 
 ## Requirements and Setup
